@@ -1052,36 +1052,44 @@ file delete -force test.db
 do_test migrate-1.1.8-database-to-current-format {
   file copy -force $sampleDir/sqlcipher-1.1.8-testkey.db test.db
   sqlite_orig db test.db
-  execsql {
+  set rc {}
+
+  lappend rc [execsql {
     PRAGMA key = 'testkey';
     PRAGMA cipher_migrate;
-  }
+    SELECT count(*) FROM sqlite_schema;
+  }]
   db close
     
   sqlite_orig db test.db
-  execsql {
+  lappend rc [execsql {
     PRAGMA key = 'testkey';
     SELECT count(*) FROM sqlite_schema;
-  }
-} {ok 1}
+    PRAGMA journal_mode;
+  }]
+} {{ok 0 1} {ok 1 delete}}
 db close
 file delete -force test.db 
 
 do_test migrate-2-0-le-database-to-current-format {
   file copy -force $sampleDir/sqlcipher-2.0-le-testkey.db test.db
   sqlite_orig db test.db
-  execsql {
+  set rc {}
+
+  lappend rc [execsql {
     PRAGMA key = 'testkey';
     PRAGMA cipher_migrate;
-  }
+    SELECT count(*) FROM sqlite_schema;
+  }]
   db close
     
   sqlite_orig db test.db
-  execsql {
+  lappend rc [execsql {
     PRAGMA key = 'testkey';
     SELECT count(*) FROM sqlite_schema;
-  }
-} {ok 1}
+    PRAGMA journal_mode;
+  }]
+} {{ok 0 1} {ok 1 delete}}
 db close
 file delete -force test.db 
 
