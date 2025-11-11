@@ -2639,7 +2639,7 @@ int sqlcipher_codec_pragma(sqlite3* db, int iDb, Parse *pParse, const char *zLef
       char *store_pass_value = sqlite3_mprintf("%d", ctx->store_pass);
       sqlcipher_vdbe_return_string(pParse, "cipher_store_pass", store_pass_value, P4_DYNAMIC);
     }
-  }
+  } else
   if( sqlite3_stricmp(zLeft, "cipher_profile")== 0 && zRight ){
       char *profile_status = sqlite3_mprintf("%d", sqlcipher_cipher_profile(db, zRight));
       sqlcipher_vdbe_return_string(pParse, "cipher_profile", profile_status, P4_DYNAMIC);
