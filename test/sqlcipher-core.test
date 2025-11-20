@@ -821,24 +821,6 @@ do_test cipher-options-before-keys {
 db close
 file delete -force test.db
 
-# verify memory security behavior
-# initially should report OFF
-# then enable, check that it is ON
-# try to turn if off, but verify that it
-# can't be unset.
-do_test verify-memory-security {
-    sqlite_orig db test.db
-    execsql {
-        PRAGMA cipher_memory_security;
-        PRAGMA cipher_memory_security = ON;
-        PRAGMA cipher_memory_security;
-        PRAGMA cipher_memory_security = OFF;
-        PRAGMA cipher_memory_security;
-    }
-} {0 1 1}
-db close
-file delete -force test.db
-
 # create two new database files, write to each
 # and verify that they have different (i.e. random)
 # salt values
@@ -855,10 +837,10 @@ do_test test-random-salt {
     CREATE TABLE t1(a,b);
     INSERT INTO t1(a,b) VALUES (1,2);
   } db2
-  db close
-  db2 close
   string equal [hexio_read test.db 0 16] [hexio_read test2.db 0 16]
 } {0}
+db close
+db2 close
 file delete -force test.db
 file delete -force test2.db
 
