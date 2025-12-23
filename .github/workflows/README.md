@@ -66,7 +66,7 @@ SQLCipher 是 SQLite 的加密版本，需要以下组件:
 
 - [SQLCipher 官方文档](https://www.zetetic.net/sqlcipher/documentation/)
 - [从源码编译 SQLCipher](https://github.com/sqlcipher/sqlcipher#compiling)
-- [Windows 编译说明](../doc/compile-for-windows.md)
+- [Windows 编译说明](../../doc/compile-for-windows.md)
 
 ## 注意事项
 
