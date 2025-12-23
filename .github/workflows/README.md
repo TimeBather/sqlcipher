@@ -24,15 +24,14 @@
 
 2. **设置 MSBuild**: 配置 Microsoft Build Tools
 
-3. **设置 vcpkg**: 用于安装 OpenSSL 依赖
-
-4. **安装 OpenSSL**: 通过 vcpkg 安装静态链接的 OpenSSL 库
+3. **安装 OpenSSL**: 通过 vcpkg 安装静态链接的 OpenSSL 库
+   - 使用 GitHub Actions runner 内置的 vcpkg (最新版本)
    - x64 平台: `openssl:x64-windows-static`
    - x86 平台: `openssl:x86-windows-static`
 
-5. **设置 Visual Studio 开发者命令提示符**: 配置正确的编译环境
+4. **设置 Visual Studio 开发者命令提示符**: 配置正确的编译环境
 
-6. **编译 SQLCipher**: 使用 `nmake` 和 `Makefile.msc` 编译
+5. **编译 SQLCipher**: 使用 `nmake` 和 `Makefile.msc` 编译
    - 必需的编译选项:
      - `SQLITE_HAS_CODEC`: 启用加密支持
      - `SQLITE_TEMP_STORE=2`: 设置临时存储模式
@@ -41,9 +40,9 @@
      - `SQLCIPHER_CRYPTO_OPENSSL`: 使用 OpenSSL 作为加密提供者
    - 链接 OpenSSL 的 `libcrypto.lib`
 
-7. **验证构建**: 检查 `sqlite3.exe` 是否成功生成
+6. **验证构建**: 检查 `sqlite3.exe` 是否成功生成
 
-8. **上传构建产物**: 将编译好的 `sqlite3.exe` 作为构建产物上传
+7. **上传构建产物**: 将编译好的 `sqlite3.exe` 作为构建产物上传
 
 ## 编译原理
 

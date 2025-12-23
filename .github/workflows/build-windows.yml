@@ -25,11 +25,6 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
     
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgGitCommitId: 'c8696863d371ab7f46e213d8f5ca923c4aef2a00'
-    
     - name: Install OpenSSL via vcpkg
       run: |
         vcpkg install openssl:${{ matrix.platform }}-windows-static
