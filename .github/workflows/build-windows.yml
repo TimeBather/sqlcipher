@@ -1,0 +1,78 @@
+name: Build SQLCipher on Windows
+
+on:
+  push:
+    branches: [ main, master, prerelease ]
+  pull_request:
+    branches: [ main, master, prerelease ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        platform: [x64, x86]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgGitCommitId: 'c8696863d371ab7f46e213d8f5ca923c4aef2a00'
+    
+    - name: Install OpenSSL via vcpkg
+      run: |
+        vcpkg install openssl:${{ matrix.platform }}-windows-static
+      shell: powershell
+    
+    - name: Setup Visual Studio Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.platform }}
+    
+    - name: Build SQLCipher
+      shell: cmd
+      run: |
+        echo Building SQLCipher for ${{ matrix.platform }}
+        
+        REM Set OpenSSL paths from vcpkg
+        set "OPENSSL_DIR=%VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.platform }}-windows-static"
+        
+        REM Display OpenSSL directory for debugging
+        echo OpenSSL directory: %OPENSSL_DIR%
+        dir "%OPENSSL_DIR%\lib" 2>nul
+        dir "%OPENSSL_DIR%\include" 2>nul
+        
+        REM Build using nmake with SQLCipher-specific flags
+        nmake /f Makefile.msc sqlite3.exe ^
+          NO_TCL=1 ^
+          USE_AMALGAMATION=1 ^
+          "TLIBS=%OPENSSL_DIR%\lib\libcrypto.lib" ^
+          "OPTS=-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -I%OPENSSL_DIR%\include"
+    
+    - name: Verify Build
+      shell: cmd
+      run: |
+        if exist sqlite3.exe (
+          echo SQLCipher build successful!
+          dir sqlite3.exe
+          sqlite3.exe --version
+        ) else (
+          echo Build failed - sqlite3.exe not found
+          exit /b 1
+        )
+    
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: sqlcipher-windows-${{ matrix.platform }}
+        path: |
+          sqlite3.exe
+        if-no-files-found: error
