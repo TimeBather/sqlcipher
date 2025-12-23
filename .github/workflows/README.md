@@ -39,7 +39,11 @@
      - `SQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown`: 额外关闭函数
      - `SQLCIPHER_CRYPTO_OPENSSL`: 使用 OpenSSL 作为加密提供者
      - `HAVE_STDINT_H=1`: 启用 stdint.h 支持（MSVC 需要）
-   - 链接 OpenSSL 的 `libcrypto.lib`
+   - 链接 OpenSSL 的 `libcrypto.lib` 以及必要的 Windows 系统库:
+     - `ws2_32.lib`: Windows Sockets API
+     - `advapi32.lib`: 高级 Windows API（加密服务）
+     - `user32.lib`: Windows 用户界面 API
+     - `crypt32.lib`: Windows 加密 API
 
 6. **验证构建**: 检查 `sqlite3.exe` 是否成功生成
 

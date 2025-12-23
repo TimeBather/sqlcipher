@@ -60,7 +60,7 @@ jobs:
         nmake /f Makefile.msc sqlite3.exe ^
           NO_TCL=1 ^
           USE_AMALGAMATION=1 ^
-          "TLIBS=%OPENSSL_DIR%\lib\libcrypto.lib" ^
+          "TLIBS=%OPENSSL_DIR%\lib\libcrypto.lib ws2_32.lib advapi32.lib user32.lib crypt32.lib" ^
           "OPTS=%SQLCIPHER_OPTS%"
     
     - name: Verify Build
