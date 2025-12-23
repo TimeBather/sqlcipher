@@ -55,7 +55,7 @@ jobs:
           NO_TCL=1 ^
           USE_AMALGAMATION=1 ^
           "TLIBS=%OPENSSL_DIR%\lib\libcrypto.lib" ^
-          "OPTS=-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -I%OPENSSL_DIR%\include"
+          "OPTS=-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -DSQLCIPHER_CRYPTO_OPENSSL -I%OPENSSL_DIR%\include"
     
     - name: Verify Build
       shell: cmd
