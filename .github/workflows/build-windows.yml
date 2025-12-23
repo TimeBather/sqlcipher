@@ -53,6 +53,7 @@ jobs:
         set "SQLCIPHER_OPTS=%SQLCIPHER_OPTS% -DSQLITE_EXTRA_INIT=sqlcipher_extra_init"
         set "SQLCIPHER_OPTS=%SQLCIPHER_OPTS% -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown"
         set "SQLCIPHER_OPTS=%SQLCIPHER_OPTS% -DSQLCIPHER_CRYPTO_OPENSSL"
+        set "SQLCIPHER_OPTS=%SQLCIPHER_OPTS% -DHAVE_STDINT_H=1"
         set "SQLCIPHER_OPTS=%SQLCIPHER_OPTS% -I%OPENSSL_DIR%\include"
         
         REM Build using nmake with SQLCipher-specific flags

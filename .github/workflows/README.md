@@ -38,6 +38,7 @@
      - `SQLITE_EXTRA_INIT=sqlcipher_extra_init`: 额外初始化函数
      - `SQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown`: 额外关闭函数
      - `SQLCIPHER_CRYPTO_OPENSSL`: 使用 OpenSSL 作为加密提供者
+     - `HAVE_STDINT_H=1`: 启用 stdint.h 支持（MSVC 需要）
    - 链接 OpenSSL 的 `libcrypto.lib`
 
 6. **验证构建**: 检查 `sqlite3.exe` 是否成功生成
@@ -54,6 +55,7 @@ SQLCipher 是 SQLite 的加密版本，需要以下组件:
    - `SQLITE_TEMP_STORE=2`: 使用内存存储临时数据
    - `SQLITE_EXTRA_INIT` 和 `SQLITE_EXTRA_SHUTDOWN`: SQLCipher 初始化/关闭钩子
    - `SQLCIPHER_CRYPTO_OPENSSL`: 指定使用 OpenSSL 作为加密提供者
+   - `HAVE_STDINT_H=1`: 启用标准整数类型头文件支持（MSVC 编译器需要）
 
 ## 使用构建产物
 
